@@ -562,6 +562,15 @@ vim.cmd [[
 vim.o.scrolloff = 10
 vim.o.relativenumber = false
 
+-- Set the number of spaces a <Tab> character counts for
+vim.opt.tabstop = 2
+
+-- Set the number of spaces for each auto-indent
+vim.opt.shiftwidth = 2
+
+-- Use spaces instead of tabs
+-- vim.opt.expandtab = true
+
 vim.keymap.set('n', '<C-n>', ':Neotree<CR>', { silent = true })
 vim.keymap.set('n', '<leader>ff', ':Format<CR>', {})
 
