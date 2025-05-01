@@ -41,6 +41,8 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.g.have_nerd_font = true
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -84,7 +86,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -108,7 +110,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',          opts = {} },
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -122,7 +124,8 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
+          { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
         vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
         vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
       end,
@@ -165,7 +168,7 @@ require('lazy').setup({
   -- },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim',         opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
@@ -456,6 +459,7 @@ local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
+  automatic_installation = true
 }
 
 mason_lspconfig.setup_handlers {
@@ -520,82 +524,3 @@ cmp.setup {
 -- vim: ts=2 sts=2 sw=2 et
 --
 --
--- CUSTOM
---
---
--- Map '<' in visual mode to '<gv'
-vim.api.nvim_set_keymap('v', '<', '<gv', { noremap = true })
-
--- Map '>' in visual mode to '>gv'
-vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true })
---
--- Correct common typo
-vim.cmd [[cnoreabbrev W! w!]]
-vim.cmd [[cnoreabbrev Q! q!]]
-vim.cmd [[cnoreabbrev Qall! qall!]]
-vim.cmd [[cnoreabbrev Wq wq]]
-vim.cmd [[cnoreabbrev Wa wa]]
-vim.cmd [[cnoreabbrev wQ wq]]
-vim.cmd [[cnoreabbrev WQ wq]]
-vim.cmd [[cnoreabbrev W w]]
-vim.cmd [[cnoreabbrev Q q]]
-vim.cmd [[cnoreabbrev Qall qall]]
-vim.cmd [[cnoreabbrev Qa qa]]
-vim.cmd [[cnoreabbrev Wqa wqa]]
-vim.cmd [[cnoreabbrev W! w!]]
-vim.cmd [[cnoreabbrev Q! q!]]
-vim.cmd [[cnoreabbrev Qall! qall!]]
-vim.cmd [[cnoreabbrev Wq wq]]
-vim.cmd [[cnoreabbrev Wa wa]]
-vim.cmd [[cnoreabbrev wQ wq]]
-vim.cmd [[cnoreabbrev WQ wq]]
-vim.cmd [[cnoreabbrev W w]]
-vim.cmd [[cnoreabbrev Q q]]
-vim.cmd [[cnoreabbrev Qall qall]]
-vim.cmd [[cnoreabbrev Qa qa]]
-vim.cmd [[cnoreabbrev Wqa wqa]]
-vim.cmd [[cnoreabbrev Wqa wqa]]
-vim.cmd [[
-  command! -nargs=+ Grep execute 'silent vimgrep! <args>' | copen
-]]
-
-vim.o.scrolloff = 10
-vim.o.relativenumber = false
-
--- Set the number of spaces a <Tab> character counts for
-vim.opt.tabstop = 2
-
--- Set the number of spaces for each auto-indent
-vim.opt.shiftwidth = 2
-
--- Use spaces instead of tabs
--- vim.opt.expandtab = true
-
-vim.keymap.set('n', '<C-n>', ':Neotree<CR>', { silent = true })
-vim.keymap.set('n', '<leader>ff', ':Format<CR>', {})
-
--- Terminal mode mappings
-vim.keymap.set('t', '<A-h>', '<C-\\><C-n><C-w>h', { noremap = true })
-vim.keymap.set('t', '<A-j>', '<C-\\><C-n><C-w>j', { noremap = true })
-vim.keymap.set('t', '<A-k>', '<C-\\><C-n><C-w>k', { noremap = true })
-vim.keymap.set('t', '<A-l>', '<C-\\><C-n><C-w>l', { noremap = true })
-vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', { noremap = true })
-
--- Normal mode mappings
-vim.keymap.set('n', '<A-h>', '<C-w>h', { noremap = true })
-vim.keymap.set('n', '<A-j>', '<C-w>j', { noremap = true })
-vim.keymap.set('n', '<A-k>', '<C-w>k', { noremap = true })
-vim.keymap.set('n', '<A-l>', '<C-w>l', { noremap = true })
-vim.keymap.set('n', '<S-p>', ':pu<CR>', { noremap = true })
-vim.keymap.set('n', '<leader>y', '"+y', { noremap = true })
-vim.keymap.set('n', '<leader>p', '"+p', { noremap = true })
-vim.keymap.set('n', '<leader>j', '*``cgn', { noremap = true })
-
--- Visual mode mappings
--- greatest remap ever
-vim.keymap.set("x", "<leader>p", [["_dP]])
-
--- next greatest remap ever : asbjornHaland
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
-vim.keymap.set("x", "<leader>p", [["_dP]])
